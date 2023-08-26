@@ -33,14 +33,14 @@ Select_data = int(input('Select dataset; AD: 0, MCI: 1: '))
 if Select_data==0:
     t0 = time.time()
     ####### Loading White matter segmented MRI 
-    I_WM_seg_AD = np.load('E:/BIO_PhD/DrNazemzadeh/result/3D/paper_result/I_WM_seg_AD_T.npy')
+    I_WM_seg_AD = np.load('E:/address/I_WM_seg_AD_T.npy')
     for Sub in range(1,41): # for all subjects
         print('Subject: ',Sub)
         if Sub==18 or Sub==20 or Sub==23 or Sub==24 or Sub==25 or Sub==26 or Sub==27 or Sub==28:
             continue
         else:
             for Sam in range(20):
-                ############## feature group 1  extarct wavelet approximate of level 3
+                ############## feature group 1  extract wavelet approximate of level 3
                 print('Slice: ',Sam+1)
                 print('Feature group 1 (wavelet approximate) ..................')
                 C = pywt.wavedec2(I_WM_seg_AD[Sub-1,:,:,Sam],'haar',level=3)
@@ -74,14 +74,14 @@ if Select_data==0:
 if Select_data==1:
     t0 = time.time()
     ####### Loading White matter segmented MRI 
-    I_WM_seg_MCI = np.load('E:/BIO_PhD/DrNazemzadeh/result/3D/paper_result/I_WM_seg_MCI_T.npy')
+    I_WM_seg_MCI = np.load('E:/address/I_WM_seg_MCI_T.npy')
     for Sub in range(1,41):# for all 32 patients
         print('Subject: ',Sub)
         if Sub==18 or Sub==20 or Sub==23 or Sub==24 or Sub==25 or Sub==26 or Sub==27 or Sub==28:
             continue
         else:
             for Sam in range(20):
-                ## feature group 1  extarct wavelet approximate of level 3
+                ## feature group 1  extract wavelet approximate of level 3
                 print('Slice: ',Sam+1)
                 print('Feature group 1 (wavelet approximate) ..................')
                 C = pywt.wavedec2(I_WM_seg_MCI[Sub-1,:,:,Sam],'haar',level=3)
@@ -118,7 +118,7 @@ if Select_data==1:
 if True:
     X_Total = np.concatenate((F_space_AD,F_space_MCI),axis=0)
     Y_Total = np.concatenate((YUC_AD,YUC_MCI),axis=0)    
-################ Automatic kfold ########################
+################ Automatic K-fold ########################
 ##### Shufflig #####
 if True:
     Data = np.concatenate((X_Total,Y_Total),axis=1)
@@ -155,8 +155,8 @@ if True:
         DT_model = DecisionTreeClassifier(criterion='entropy',max_depth=8)
         LDA_model = LinearDiscriminantAnalysis()
         # Training Machine Models
-        x_train = np.delete(x_train,0,0) # remove additianal row
-        y_train = np.delete(y_train,0,0) # remove additianal row
+        x_train = np.delete(x_train,0,0) # remove additional row
+        y_train = np.delete(y_train,0,0) # remove additional row
         print('Training Machines...............')
         print('Training KNN...')
         knn_model.fit(x_train, y_train.flatten())
@@ -200,7 +200,7 @@ if True:
 
         ## Show Test performance in each fold
  #if True:
-        print('Test Performence.........................................fold: ',k)
+        print('Test Performance.........................................fold: ',k)
         # knn
         print('KNN Performance in Test....')
         print('Total report:',classification_report(pre_test_knn, y_test,digits=4))
@@ -222,7 +222,7 @@ if True:
         
         ## Show Train performance in each fold
         # Linear SVM
-        print('Train Performence.........................................fold: ',k)
+        print('Train Performance.........................................fold: ',k)
         # knn
         print('KNN Performance in Train....')
         print('Total report:',classification_report(pre_train_knn, y_train,digits=4))
