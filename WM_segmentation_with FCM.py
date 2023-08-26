@@ -21,13 +21,12 @@ if True:
 Select_data = int(input('Select dataset; AD: 0, MCI: 1: '))
 ################# AD ####################  
 if Select_data==0:
-    #for Sub in range(1,33):# for all subjects
-    for Sub in range(1,3):
+    for Sub in range(1,33):# for all subjects
         T0 = time.time()
         ###################### Loading MRI data
         print('Loading Nifti data of AD patient ................................')
         print('Subject: ',Sub)
-        address ='E:/BIO_PhD/DrNazemzadeh/data/ADNI/AD'+'/'+str(Sub)+'.nii'
+        address ='E:/address/AD'+'/'+str(Sub)+'.nii'# set your pass for loading Nifti data
         I = nib.load(address).get_fdata()
         if Sub==1:
             # WM_labelAD = np.zeros((32,20)) # for all subjects
@@ -35,7 +34,7 @@ if Select_data==0:
             # I_WM_seg_AD = np.zeros((32,I.shape[0],I.shape[1],20)) # for all subjects
             I_WM_seg_AD = np.zeros((2,I.shape[0],I.shape[1],20))
             
-        ###################### Two operation: 1)Extract 20 slices from all slices  2)Transform MRI image to Vector
+        ###################### Two operations: 1)Extract 20 slices from all slices  2)Transform MRI image to Vector
         print('Designing ML System (FCM clustering) ............................')
         I_vec = I[:,:,50:70].reshape(((I.shape[0])*(I.shape[1])*(20),1))
         ###################### Designing ML System (FCM clustering) 
@@ -43,7 +42,7 @@ if Select_data==0:
         FCM_model = FCM(n_clusters=5) # we use two cluster as an example m=2;
         ###################### Training ML System (FCM clustering) 
         print('Training ML System (FCM clustering) based on Input Data .........')
-        FCM_model.fit(I_vec) ## X is numpy array. rows:samples  and columns:features
+        FCM_model.fit(I_vec) ## X is numpy array. rows: samples  and columns: features
         ###################### Segmenting Brain MRI with ML System
         print('Clustering (Segmenting) MRI data with ML System.........')
         labels = FCM_model.predict(I_vec)
@@ -54,7 +53,7 @@ if Select_data==0:
         print('Selecting the Correct Label for White matter based on Plotting Slices and Quality Control ........')
         for Sam in range(20):
             if Sam==0 or Sam==10 or Sam==19:
-                ################ Plotting Original MRI and FCM result MRI
+                ################ Plotting Original MRI and FCM result in MRI
                 print('Slice: ', Sam+50)
                 I_seg = I_seg_T[:,:,Sam]
                 fig = plt.figure(figsize=(20,10),dpi=72)
@@ -75,18 +74,18 @@ if Select_data==0:
             I_WM_seg_AD[Sub-1,0:I.shape[0],0:I.shape[1],Sam] = I[:,:,Sam+50]*I_WM_mask
             
      
-        ## Saving output of each subject for avoiding missing data
+        ## Saving output of each subject to avoid missing data
         print('Saving output of each subject..........')
-        np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/I_WM_seg_AD_1', I_WM_seg_AD[0:Sub,:,:,0:20])
-        np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/WM_labelAD_1', WM_labelAD[0:Sub,0:20])
+        np.save('E:/address/I_WM_seg_AD_1', I_WM_seg_AD[0:Sub,:,:,0:20])
+        np.save('E:/address/WM_labelAD_1', WM_labelAD[0:Sub,0:20])
         print('Loading data and preprocessing for AD subject number' ,Sub,' are finished .....')
         T1 = time.time()
         print('Loading and Preprocessing Total Duration(sec): ',round(T1-T0))
         
     ## Saving output of all AD subjects
     print('Saving output of all  subjects..........')
-    np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/I_WM_seg_AD_T', I_WM_seg_AD)
-    np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/WM_labelAD_T', WM_labelAD)
+    np.save('E:/address/I_WM_seg_AD_T', I_WM_seg_AD)# set your pass for saving
+    np.save('E:/address/WM_labelAD_T', WM_labelAD)# set your pass for saving
     print('2) Loading data and preprocessing for all AD subjects are finished .......')
     print('..........................................................................')
 
@@ -95,7 +94,7 @@ if Select_data==0:
     ## Ploting T1 MRI and White matter MRI
     if True:
         Subject = int(input('Enter Subject ID[1,2,3,..] (Ex:1): '))       
-        address ='E:/BIO_PhD/DrNazemzadeh/data/ADNI/AD'+'/'+str(Subject)+'.nii'
+        address ='E:/address/AD'+'/'+str(Subject)+'.nii'
         I = nib.load(address).get_fdata()    
         fig = plt.figure(figsize=(20,20),dpi=72)
         grid = plt.GridSpec(1,2)
@@ -112,13 +111,12 @@ if Select_data==0:
 
 ################# MCI #####################
 if Select_data==1:
-    #for Sub in range(1,33):
-    for Sub in range(1,3):
+    for Sub in range(1,33):
         T0 = time.time()
         ###################### Loading MRI data
         print('Loading Nifti data of MCI patient ................................')
         print('Subject: ',Sub)
-        address ='E:/BIO_PhD/DrNazemzadeh/data/ADNI/MCI'+'/'+str(Sub)+'.nii'
+        address ='E:/address/MCI'+'/'+str(Sub)+'.nii'# set your pass for loading Nifti data
         I = nib.load(address).get_fdata()
         if Sub==1:
             # WM_labelMCI = np.zeros((32,20)) # for all subjects
@@ -126,7 +124,7 @@ if Select_data==1:
             # I_WM_seg_MCI = np.zeros((32,I.shape[0],I.shape[1],20)) # for all subjects
             I_WM_seg_MCI = np.zeros((2,I.shape[0],I.shape[1],20))
             
-        ###################### Two operation: 1)Extract 20 slices from all slices  2)Transform MRI image to Vector
+        ###################### Two operations: 1)Extract 20 slices from all slices  2)Transform MRI image to Vector
         print('Designing ML System (FCM clustering) ............................')
         I_vec = I[:,:,50:70].reshape(((I.shape[0])*(I.shape[1])*(20),1))
         ###################### Designing ML System (FCM clustering) 
@@ -134,7 +132,7 @@ if Select_data==1:
         FCM_model = FCM(n_clusters=5) # we use two cluster as an example m=2;
         ###################### Training ML System (FCM clustering) 
         print('Training ML System (FCM clustering) based on Input Data .........')
-        FCM_model.fit(I_vec) ## X is numpy array. rows:samples  and columns:features
+        FCM_model.fit(I_vec) ## X is numpy array. rows: samples  and columns: features
         ###################### Segmenting Brain MRI with ML System
         print('Clustering (Segmenting) MRI data with ML System.........')
         labels = FCM_model.predict(I_vec)
@@ -145,7 +143,7 @@ if Select_data==1:
         print('Selecting the Correct Label for White matter based on Plotting Slices and Quality Control ........')
         for Sam in range(20):
             if Sam==0 or Sam==10 or Sam==19:
-                ################ Plotting Original MRI and FCM result MRI
+                ################ Plotting Original MRI and FCM result in MRI
                 print('Slice: ', Sam+50)
                 I_seg = I_seg_T[:,:,Sam]
                 fig = plt.figure(figsize=(20,10),dpi=72)
@@ -158,31 +156,31 @@ if Select_data==1:
                 ax2.set_title('FCM Clustering Segmentation')
                 plt.show()
                 ################# Select Correct Label
-                WM_labelMCI[Sub-1,:] = np.ones((20))*int(input('Enter whitematter Label: '))
+                WM_labelMCI[Sub-1,:] = np.ones((20))*int(input('Enter white-matter Label: '))
                 
             ################# Creating Mask from User Label     
             I_WM_mask = I_seg==int(WM_labelMCI[Sub-1,Sam])
             ################ Segmenting White matter from MRI with Mask
             I_WM_seg_MCI[Sub-1,0:I.shape[0],0:I.shape[1],Sam] = I[:,:,Sam+50]*I_WM_mask
             
-        ## Saving output of each subject for avoiding missing data
+        ## Saving output of each subject to avoid missing data
         print('Saving output of each subject..........')
-        np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/I_WM_seg_MCI_0', I_WM_seg_MCI[0:Sub,:,:,0:20])
-        np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/WM_labelMCI_0', WM_labelMCI[0:Sub,0:20])
+        np.save('E:/address/I_WM_seg_MCI_1', I_WM_seg_MCI[0:Sub,:,:,0:20])
+        np.save('E:/address/I_WM_seg_MCI_1', WM_labelMCI[0:Sub,0:20])
         T1 = time.time()
         print('Loading and Preprocessing Total Duration(sec): ',round(T1-T0))
 
     ## Saving output of all AD subjects
     print('Saving output of all  subjects..........')
-    np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/I_WM_seg_MCI_T', I_WM_seg_MCI)
-    np.save('E:/BIO_PhD/Workshop/AI_MRI/Code/Code_reuslt/WM_labelMCI_T', WM_labelMCI)
+    np.save('E:/address/I_WM_seg_MCI_T', I_WM_seg_MCI)
+    np.save('E:/address/WM_labelMCI_T', WM_labelMCI)
     print('2) Loading data and preprocessing for all MCI subjects are finished ......')
     print('..........................................................................')
 
 ## Ploting
     if True:
         Subject = int(input('Enter Subject ID[1,2,3,...] (Ex:1): '))       
-        address ='E:/BIO_PhD/DrNazemzadeh/data/ADNI/MCI'+'/'+str(Subject)+'.nii'
+        address ='E:/address/MCI'+'/'+str(Subject)+'.nii'
         I = nib.load(address).get_fdata()    
         fig = plt.figure(figsize=(15,15),dpi=72)
         grid = plt.GridSpec(1,2)
