@@ -117,72 +117,13 @@ if Select_data==1:
 ###### Cross validation #######
 if True:
     X_Total = np.concatenate((F_space_AD,F_space_MCI),axis=0)
-    Y_Total = np.concatenate((YUC_AD,YUC_MCI),axis=0)
-    # Split dataset into training set and test set
-##    X_train, X_test, y_train, y_test = train_test_split(X_Total, Y_Total,
-##                                                        test_size=0.3,
-##                                                        random_state=42,shuffle=True)
-    
+    Y_Total = np.concatenate((YUC_AD,YUC_MCI),axis=0)    
 ################ Automatic kfold ########################
 ##### Shufflig #####
 if True:
     Data = np.concatenate((X_Total,Y_Total),axis=1)
     Data_shuff = shuffle(Data,random_state=0)
-##    X_Total_shuff = Data_shuff[:,0:10]
-##    Y_Total_shuff = Data_shuff[:,10]
-
-###### DT #############
-if True:
-    t0 = time.time()
-    DT_model = DecisionTreeClassifier(criterion='entropy',max_depth=3)
-    DT_model.fit(X_train, y_train)
-    # Evaluate
-    pre_train_DT = DT_model.predict(X_train)
-    acc_train_DT = accuracy_score(y_train, pre_train_DT)
-    print(acc_train_DT)
-    pre_test_DT = DT_model.predict(X_test)
-    acc_test_DT = accuracy_score(y_test, pre_test_DT)
-    print(acc_test_DT)
-    # Report
-    print(classification_report(pre_test_DT, y_test))
-    t1 = time.time()
-    print('DT duration(sec): ',t1-t0)
-    
-            
-###### LDA #######
-if True:
-    t0 = time.time()
-    LDA_model = LinearDiscriminantAnalysis()
-    LDA_model.fit(X_train, y_train)
-    # Evaluate
-    pre_train_LDA = LDA_model.predict(X_train)
-    acc_train_LDA= accuracy_score(y_train, pre_train_LDA)
-    print(acc_train_LDA)
-    pre_test_LDA =  LDA_model.predict(X_test)
-    acc_test_LDA = accuracy_score(y_test, pre_test_LDA)
-    print(acc_test_LDA)
-    # Report
-    print(classification_report(pre_test_LDA, y_test))
-    t1 = time.time()
-    print('LDA duration(sec): ',t1-t0)
-    
-###### KNN #######
-if True:
-    t0 = time.time()
-    knn_model = KNeighborsClassifier(n_neighbors = 9)
-    knn_model.fit(X_train, y_train)
-    # Evaluate
-    pre_train_KNN = knn_model.predict(X_train)
-    acc_train_KNN= accuracy_score(y_train, pre_train_KNN)
-    print(acc_train_KNN)
-    pre_test_KNN =  knn_model.predict(X_test)
-    acc_test_KNN = accuracy_score(y_test, pre_test_KNN)
-    print(acc_test_KNN)
-    # Report
-    print(classification_report(pre_test_KNN, y_test))
-    t1 = time.time()
-    print('LDA duration(sec): ',t1-t0)            
-
+          
 ############## Ensemble ###############
 
 if True:
